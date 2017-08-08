@@ -3,58 +3,50 @@
 
 package.path = "./modules/?.lua;" .. package.path
 
+glue = require"glue"
 file_util = require"file_util"
 moonscript = require"moonscript"
 ast_util = require"ast_util"
-json = require"JSON"
-bson = require"bson"
-serpent = require"serpent"
 
 findDependentFunction = (ast) ->
 	namez = {}
-	
-	recursive_search = (tbl) ->
-		table_dump = {}
-		for i = 1, #tbl
-			v = tbl[i]
+
+	asts = {}
+
+	search = (tbl) ->
+		for i, v in pairs(tbl)
 			if type(v) == "table"
 				if (v.tag == "Call")
-					--strout = findstr(v)
 					if (v[1].tag == "String") or (v[1].tag == "Id")
 						table.insert(namez, v[1][1])
-				table.insert(table_dump, v)
-		for i, v in pairs(table_dump) 
-			recursive_search(v)
+				table.insert(asts, v)
 
-	recursive_search(ast)
+	search(ast)
+
+	while #asts ~= 0
+		asts_working = asts
+		asts = {}
+		for i, v in pairs(asts_working) 
+			search(v)
 	return namez
 
-sort_tbl = (tbl) -> --real ugly sort function
-	needs_resort = false
-	bgn = {}
-	edn = {}
-	for i1, v1 in pairs(tbl)
-		zzz = false
-		for i2, v2 in pairs(tbl)
-			if v1[1] ~= v2[1]
-				if i1 < i2
-					for i, v in pairs(v1[3])
-						if v == v2[1]
-							zzz = true
-							needs_resort = true
-		if zzz
-			table.insert(edn, v1)
-		else
-			table.insert(bgn, v1)
-	sss = {}
-	for i, v in pairs(bgn)
-		table.insert(sss, v)
-	for i, v in pairs(edn)
-		table.insert(sss, v)
-	if needs_resort
-		return sort_tbl(sss)
-	else
-		return sss
+sort_tbl = (tbl) -> --kind of ugly sort function
+	sorted = {}
+	for i, v in pairs(tbl)
+		breakme = false
+		for ii, vv in ipairs(sorted)
+			for iii, vvv in pairs(vv[3])
+				if v[1] == vvv
+					table.insert(sorted, ii - 1, v)
+					tbl[i] = nil
+					breakme = true
+					break
+			if breakme
+				break
+		if not breakme
+			table.insert(sorted, v)
+			tbl[i] = nil
+	return sorted
 
 genLocalFunction = (Id, Function) ->
 	return ast_util.new_ast_node("Localrec", ast_util.new_ast_node("Block", ast_util.new_ast_node("Id", Id)), ast_util.new_ast_node("Block", Function))
@@ -83,12 +75,11 @@ funcs = {}
 funct = {}
 funcu = {}
 
-
 for i, v in pairs(Preinit)
-	table.insert(finstr, ast_util.reread(file_util.readfile(v)))
+	table.insert(finstr, ast_util.reread(glue.readfile(v)))
 
 for i, v in pairs(Init_mod)
-	moon_lua, err = moonscript.to_lua(file_util.readfile(v)) --currently linemapping not support
+	moon_lua, err = moonscript.to_lua(glue.readfile(v)) --currently linemapping not support
 	if not moon_lua
 		print v .. ": " .. err
 		os.exit(1)
@@ -103,18 +94,15 @@ for i, v in pairs(Init_mod)
 			modid = v[1]
 		elseif i[1] == "func"
 			modfunc = v
-		-- else
-		-- 	error("unknown key: " .. i[1])
 	if modtype ~= "function"
 		continue
-		--error("invalid modtype: " .. modtype)
 	table.insert(funct, {modid, modfunc, findDependentFunction(ast), genLocalFunction(modid, modfunc)})
 
 for i, v in pairs(PostInit)
-	table.insert(finftr, ast_util.reread(file_util.readfile(v)))
+	table.insert(finftr, ast_util.reread(glue.readfile(v)))
 
 for i, v in pairs(sort_tbl(funct))
 	table.insert(finstr, ast_util.ast_to_code(v[4]))
 
-file_util.writefile(arg[1], table.concat(finstr, "\n"))
-file_util.writefile(arg[2], table.concat(finftr, "\n"))
+glue.writefile(arg[1], table.concat(finstr, "\n"))
+glue.writefile(arg[2], table.concat(finftr, "\n"))

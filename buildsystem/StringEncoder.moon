@@ -2,11 +2,9 @@ package.path = "./modules/?.lua;" .. package.path
 
 strs = {}
 
-file_util = require"file_util"
+glue = require"glue"
 ast_util = require"ast_util"
-ast = ast_util.code_to_ast(file_util.readfile(arg[1]))
-
-serpent = require"serpent"
+ast = ast_util.code_to_ast(glue.readfile(arg[1]))
 
 strtbl = (str) ->
 	pos = nil
@@ -38,26 +36,35 @@ modTag = (num) ->
 modInvoke = (tel) ->
 	return ast_util.new_ast_node("Call", ast_util.new_ast_node("Id", "Invoke"), unpack(tel))
 
-recursive_search = (tbl) ->
-	table_dump = {}
-	for i = 1, #tbl
-		v = tbl[i]
-		if type(v) == "table"
-			if (v.tag == "String") and checkBad(i, v, tbl)
-				strout = findstr(v)
-				tbl[i] = modTag(strtbl(strout)) --replace it
-			elseif v.tag == "Invoke"
-				tbl[i] = modInvoke(v)
-				table.insert(table_dump, tbl) --look again
-			else
-				table.insert(table_dump, v)
+modAst = (ast) ->
+	asts = {}
 
-	for i, v in pairs(table_dump)
-		recursive_search(v)
+	search = (tbl) ->
+		modding = {}
+		for i, v in pairs(tbl)
+			if type(v) == "table"
+				if (v.tag == "String") and checkBad(i, v, tbl)
+					strout = findstr(v)
+					modding[i] = modTag(strtbl(strout)) --replace it
+				elseif v.tag == "Invoke"
+					modding[i] = modInvoke(v)
+					table.insert(asts, tbl) --look again
+				else
+					table.insert(asts, v)
+		for i, v in pairs(modding)
+			tbl[i] = v
 
-recursive_search ast
+	search(ast)
+
+	while #asts ~= 0
+		asts_working = asts
+		asts = {}
+		for i, v in pairs(asts_working)
+			search(v)
+
+modAst ast
 
 bson = require"bson_tiny"
 
-file_util.writefile(arg[2], ast_util.ast_to_code(ast))
-file_util.writefile(arg[3], bson.encode(strs))
+glue.writefile(arg[2], ast_util.ast_to_code(ast))
+glue.writefile(arg[3], bson.encode(strs))

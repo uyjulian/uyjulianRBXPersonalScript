@@ -1,7 +1,7 @@
 
 tempGen = require"ModuleTemplate"
 accountServ = require"RobloxUserPass"
-file_util = require"file_util"
+glue = require"glue"
 url_util = require"url_util"
 
 existingRobloxAsset = (id) -> 
@@ -39,7 +39,7 @@ function M.Init()
 end
 
 return M
-]],file_util.readfile("bin/uyjulianRBXPersonScript.lua"), [[
+]],glue.readfile("bin/uyjulianRBXPersonScript.lua"), [[
 wait();
 local ls = script.LocalScript:clone()
 script:Destroy()
@@ -64,4 +64,4 @@ for i, v in pairs(env.game:service'Players':GetPlayers'') do
 end
 ]])
 
-print(uploadRobloxAssetData(accountServ.GetRobloSecurity("testaccount1"), onion, existingRobloxAsset(324987544)))
+print(uploadRobloxAssetData(accountServ.GetRobloSecurity("testaccount1"), onion, existingRobloxAsset()))

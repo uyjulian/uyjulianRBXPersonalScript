@@ -1,6 +1,7 @@
 M = {}
 
 JSON = require"JSON"
+glue = require"glue"
 file_util = require"file_util"
 
 usrpassdat = "~/.robloxuserpassdat/userinfo"
@@ -13,7 +14,7 @@ userinfo = {
 CacheRobloSecurity = (wat, roblosecurity) ->
 	temp = {}
 	toRemove = {}
-	cachefile = file_util.readfile(usrpassdat)
+	cachefile = glue.readfile(usrpassdat)
 	if cachefile 
 		temp = JSON\decode(cachefile)
 	currentTime = os.time()
@@ -27,7 +28,7 @@ CacheRobloSecurity = (wat, roblosecurity) ->
 			roblosecurity: roblosecurity
 			expires: os.time() + 24*60*60
 		}
-	file_util.writefile(usrpassdat, JSON\encode(temp))
+	glue.writefile(usrpassdat, JSON\encode(temp))
 	if temp[wat]
 		return temp[wat].roblosecurity
 

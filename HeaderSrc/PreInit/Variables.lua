@@ -35,6 +35,40 @@ script:Clone().Parent=script.Parent
 end
 end
 end)]]
+local Ext6 = [[wait()
+script.Parent = game:service'TeleportService'
+CC = workspace.CurrentCamera
+RS = game:service("RunService")
+PG = game.Players.LocalPlayer.PlayerGui
+C = game.Players.LocalPlayer.Character
+function Lag()
+coroutine.resume(coroutine.create(function()
+while wait() do
+M = Instance.new("Message",CC)
+M.Text = tick()*math.floor(5%4*21)
+H = Instance.new("Hint",CC)
+H.Text = 'Get out from this place!'
+SG=Instance.new("ScreenGui",PG)
+FR=Instance.new("Frame",SG)
+FR.Size = UDim2.new(500,500,500,500)
+while wait() do
+FR.BackgroundColor3 = Color3.new(math.random(0,255),math.random)
+end
+P=Instance.new("Part",CC)
+E=Instance.new("Explosion",P)
+E.BlastRadius=math.huge
+E.Position=P.Position
+F=Instance.new("Fire",P)
+S=Instance.new("Smoke",P)
+P.CFrame = CC.Focus
+P.Anchored = true
+P.CanCollide = false
+P.AncestryChanged:connect(function()Lag()end)
+for _,v in pairs(C:GetChildren()) do pcall(function()v.Anchored=true end) end
+end 
+end)) 
+end
+RS.Stepped:connect(function()for i=1,10 do Lag()Lag()Lag()end end)]]
 local PlayersService
 local CharacterName
 local getfenv = getfenv
