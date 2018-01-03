@@ -1,5 +1,4 @@
 package.path = "./modules/?.lua;" .. package.path
-glue = require"glue"
 file_util = require"file_util"
 hdr = arg[1]
 cfg = arg[2]
@@ -8,10 +7,10 @@ ftr = arg[4]
 out = arg[5]
 
 str = ""
-str = str .. glue.readfile(hdr) .. "\n"
-str = str .. glue.readfile(cfg) .. "\n"
+str = str .. file_util.readfile(hdr) .. "\n"
+str = str .. file_util.readfile(cfg) .. "\n"
 for i, v in pairs(cmds)
-	str = str .. glue.readfile(v) .. "\n"
-str = str .. glue.readfile(ftr) .. "\n"
+	str = str .. file_util.readfile(v) .. "\n"
+str = str .. file_util.readfile(ftr) .. "\n"
 
-glue.writefile(out, str)
+file_util.writefile(out, str)

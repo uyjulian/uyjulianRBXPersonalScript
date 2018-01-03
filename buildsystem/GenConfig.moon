@@ -1,10 +1,10 @@
 package.path = "./modules/?.lua;" .. package.path
-glue = require"glue"
+file_util = require"file_util"
 ast_util = require"ast_util"
 
 JSON = require"JSON"
 bson = require"bson"
-configtable = JSON\decode(glue.readfile(arg[1]))
+configtable = JSON\decode(file_util.readfile(arg[1]))
 outtable = {}
 
 for i1, v1 in pairs(configtable)
@@ -27,5 +27,5 @@ for i1, v1 in pairs(configtable)
 		error("unknown type")
 	table.insert(outtable, ast_util.new_ast_node("Call", ast_util.new_ast_node("Id", "ConfigSystem"), ast_util.new_ast_node("String", "Set"), ast_util.new_ast_node("String", i1), curVariable))
 
-glue.writefile(arg[2], ast_util.ast_to_code(outtable))
+file_util.writefile(arg[2], ast_util.ast_to_code(outtable))
 

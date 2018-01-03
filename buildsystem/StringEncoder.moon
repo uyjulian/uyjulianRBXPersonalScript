@@ -2,9 +2,9 @@ package.path = "./modules/?.lua;" .. package.path
 
 strs = {}
 
-glue = require"glue"
+file_util = require"file_util"
 ast_util = require"ast_util"
-ast = ast_util.code_to_ast(glue.readfile(arg[1]))
+ast = ast_util.code_to_ast(file_util.readfile(arg[1]))
 
 strtbl = (str) ->
 	pos = nil
@@ -66,5 +66,5 @@ modAst ast
 
 bson = require"bson_tiny"
 
-glue.writefile(arg[2], ast_util.ast_to_code(ast))
-glue.writefile(arg[3], bson.encode(strs))
+file_util.writefile(arg[2], ast_util.ast_to_code(ast))
+file_util.writefile(arg[3], bson.encode(strs))

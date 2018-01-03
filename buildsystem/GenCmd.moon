@@ -1,5 +1,4 @@
 package.path = "./modules/?.lua;" .. package.path
-glue = require"glue"
 file_util = require"file_util"
 ast_util = require"ast_util"
 
@@ -20,7 +19,7 @@ ast_get_modinfo = (ast) ->
 						return v[2][1]
 
 for i, v in pairs(CmdsMod)
-	moon_lua, err = ms.to_lua(glue.readfile(v)) --currently linemapping not support
+	moon_lua, err = ms.to_lua(file_util.readfile(v)) --currently linemapping not support
 	if not moon_lua
 		print v .. ": " .. err
 		os.exit(1)
@@ -41,6 +40,6 @@ for i, v in pairs(CmdsMod)
 	if modtype ~= "command"
 		continue
 	OutAddCommandAst = ast_util.new_ast_node("Call", ast_util.new_ast_node("Id", "AddCommand"), ast_util.new_ast_node("String", moddesc), ast_util.new_ast_node("String", modalias[1]), modfunc)
-	glue.writefile(string.format("%s/%s.cmd.lua", arg[1], i .. "_ncmd"), ast_util.ast_to_code(OutAddCommandAst))
+	file_util.writefile(string.format("%s/%s.cmd.lua", arg[1], i .. "_ncmd"), ast_util.ast_to_code(OutAddCommandAst))
 
 

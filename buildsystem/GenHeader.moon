@@ -3,7 +3,6 @@
 
 package.path = "./modules/?.lua;" .. package.path
 
-glue = require"glue"
 file_util = require"file_util"
 moonscript = require"moonscript"
 ast_util = require"ast_util"
@@ -76,10 +75,10 @@ funct = {}
 funcu = {}
 
 for i, v in pairs(Preinit)
-	table.insert(finstr, ast_util.reread(glue.readfile(v)))
+	table.insert(finstr, ast_util.reread(file_util.readfile(v)))
 
 for i, v in pairs(Init_mod)
-	moon_lua, err = moonscript.to_lua(glue.readfile(v)) --currently linemapping not support
+	moon_lua, err = moonscript.to_lua(file_util.readfile(v)) --currently linemapping not support
 	if not moon_lua
 		print v .. ": " .. err
 		os.exit(1)
@@ -99,10 +98,10 @@ for i, v in pairs(Init_mod)
 	table.insert(funct, {modid, modfunc, findDependentFunction(ast), genLocalFunction(modid, modfunc)})
 
 for i, v in pairs(PostInit)
-	table.insert(finftr, ast_util.reread(glue.readfile(v)))
+	table.insert(finftr, ast_util.reread(file_util.readfile(v)))
 
 for i, v in pairs(sort_tbl(funct))
 	table.insert(finstr, ast_util.ast_to_code(v[4]))
 
-glue.writefile(arg[1], table.concat(finstr, "\n"))
-glue.writefile(arg[2], table.concat(finftr, "\n"))
+file_util.writefile(arg[1], table.concat(finstr, "\n"))
+file_util.writefile(arg[2], table.concat(finftr, "\n"))

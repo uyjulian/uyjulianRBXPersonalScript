@@ -1,11 +1,11 @@
 package.path = "./modules/?.lua;" .. package.path
-glue = require"glue"
+file_util = require"file_util"
 z85 = require"z85"
 zlib = require"zlib"
 
-data = glue.readfile(arg[1])
+data = file_util.readfile(arg[1])
 
-fl = zlib.compress(data, #data, 9)
+fl = zlib.compress(data, 9)
 
 rmdr = (#fl) % 4
 if rmdr ~= 0
@@ -13,8 +13,8 @@ if rmdr ~= 0
 assert((#fl) % 4 == 0)
 lf = z85.to_z85(fl)
 
-srcstub = glue.readfile(arg[2])
-srcmn = glue.readfile(arg[3])
+srcstub = file_util.readfile(arg[2])
+srcmn = file_util.readfile(arg[3])
 
-glue.writefile(arg[4], srcstub .. "\n" .. string.format("local strings = inflate64(%q)", lf) .. srcmn)
+file_util.writefile(arg[4], srcstub .. "\n" .. string.format("local strings = inflate64(%q)", lf) .. srcmn)
 

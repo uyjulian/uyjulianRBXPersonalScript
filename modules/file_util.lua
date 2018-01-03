@@ -36,5 +36,22 @@ M.realpath = function(filename)
 end
 
 
+M.readfile = function(filename)
+	local lol = io.open(filename, "rb")
+	if not lol then
+		return
+	end
+	local lols = lol:read("*a")
+	lol:close()
+	return lols
+end
+
+M.writefile = function(filename, contents)
+	local lol = io.open(filename, "wb")
+	lol:write(contents)
+	lol:close()
+	return lols
+end
+
 
 return M

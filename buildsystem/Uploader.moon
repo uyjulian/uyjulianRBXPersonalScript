@@ -1,7 +1,7 @@
 
 tempGen = require"ModuleTemplate"
 accountServ = require"RobloxUserPass"
-glue = require"glue"
+file_util = require"file_util"
 url_util = require"url_util"
 
 existingRobloxAsset = (id) -> 
@@ -39,7 +39,7 @@ function M.Init()
 end
 
 return M
-]],glue.readfile("bin/uyjulianRBXPersonScript.lua"), [[
+]],file_util.readfile("bin/uyjulianRBXPersonScript.lua"), [[
 wait();
 local ls = script.LocalScript:clone()
 script:Destroy()
