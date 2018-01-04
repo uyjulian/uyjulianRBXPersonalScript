@@ -9,7 +9,7 @@ fi
 # Install required packages
 apt-get -y update
 apt-get -y install luajit luarocks zlib1g zlib1g-dev
-luarocks install lzlib
+luarocks install lua-zlib
 # We need this specific version because LPegLabel causes segmentation faults
 luarocks install lua-parser 0.1.1
 luarocks install serpent
