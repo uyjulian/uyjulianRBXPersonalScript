@@ -64,7 +64,7 @@ modAst = (ast) ->
 
 modAst ast
 
-bson = require"bson_tiny"
+bson = require"bson"
 
 file_util.writefile(arg[2], ast_util.ast_to_code(ast))
 file_util.writefile(arg[3], bson.encode(strs))
