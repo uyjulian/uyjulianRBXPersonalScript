@@ -3,9 +3,7 @@ file_util = require"file_util"
 z85 = require"z85"
 zlib = require"zlib"
 
-data = file_util.readfile(arg[1])
-
-fl = zlib.compress(data, 9)
+fl = zlib.compress(file_util.readfile(arg[1]), 9, 8, -15, 9, 0)
 
 rmdr = (#fl) % 4
 if rmdr ~= 0
