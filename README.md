@@ -1,6 +1,8 @@
 uyjulianRBXPersonalScript
 =========================
 
+[![Build Status](https://travis-ci.org/uyjulian/uyjulianRBXPersonalScript.svg?branch=master)](https://travis-ci.org/uyjulian/uyjulianRBXPersonalScript)  
+
 This is my personal script, for use with Script Builders, which are areas in an online game called ROBLOX
 which will allow you to execute any code.  
 The original location of this script is located at https://pastebin.com/HPsh73iL  
