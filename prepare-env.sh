@@ -2,7 +2,7 @@
 # Root check
 if [[ $EUID -ne 0 ]]; then
    echo "Please run with sudo:"
-   echo "sudo prepare-env.sh" 
+   echo "sudo ./prepare-env.sh" 
    exit 1
 fi
 
