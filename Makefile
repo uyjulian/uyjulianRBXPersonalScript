@@ -16,7 +16,7 @@ stringsObject := $(binFolder)Strings.obj.meta.json
 default: compressify
 
 $(outputFile): $(binFolder) $(outputDataEncoded)
-	luajit buildsystem/LuaSrcDiet.lua --maximum $(outputDataEncoded) -o $(outputFile)
+	luasrcdiet --maximum $(outputDataEncoded) -o $(outputFile)
 
 $(outputDebugStringEncoded): $(inputRaw) $(stringsCompressObject)
 	moon buildsystem/StringEncoderDebug.moon $(outputDebugStringEncoded) $(stringsObject) $(stringsCompressObject)
