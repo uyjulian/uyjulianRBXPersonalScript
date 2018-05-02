@@ -19,6 +19,8 @@ luarocks install luasrcdiet
 sed -i 's!/usr/bin/lua5.1!/usr/bin/luajit!' `which moon` `which luasrcdiet`
 # Fix moonscript to use LPegLabel, otherwise segmentation faults occur
 sed -i 's!require("lpeg")!require("lpeglabel")!g' /usr/local/share/lua/5.1/moonscript/errors.lua /usr/local/share/lua/5.1/moonscript/parse.lua /usr/local/share/lua/5.1/moonscript/parse/env.lua /usr/local/share/lua/5.1/moonscript/parse/literals.lua /usr/local/share/lua/5.1/moonscript/parse/util.lua
+# Fix lua-parser being broken with latest LPegLabel
+sed -i 's!local errpos = #subject-#sfail!local errpos = sfail!' /usr/local/share/lua/5.1/lua-parser/parser.lua
 
 echo "The environment has been prepared."
 echo "You may now run 'make' to build the program."
