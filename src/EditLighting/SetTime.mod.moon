@@ -1,7 +1,7 @@
 export modinfo = {
 	type: "command"
 	desc: "Set time of day"
-	alias: {"SetTimeOfDay"}
+	alias: {"settimeofday"}
 	func: (Msg,Speaker) ->
 		light = Service"Lighting"
 		light.TimeOfDay = Msg

@@ -1,7 +1,7 @@
 export modinfo = {
 	type: "command"
 	desc: "UnSparkles"
-	alias: {"unsparkles"}
+	alias: {"unsparkles", "nosparkles", "unsp", "nosp"}
 	func: getDoPlayersFunction (v) ->
 		if v.Character
 			if v.Character\FindFirstChild("Torso")

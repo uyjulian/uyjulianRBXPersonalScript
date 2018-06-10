@@ -1,7 +1,7 @@
 export modinfo = {
 	type: "command"
 	desc: "Change Walkspeed"
-	alias: {"walkspeed"}
+	alias: {"walkspeed", "speed", "ws"}
 	func: (Msg,Speaker) ->
 		for i = 1, #Msg
 			if string.sub(Msg, i, i) == ConfigSystem("Get", "Blet")

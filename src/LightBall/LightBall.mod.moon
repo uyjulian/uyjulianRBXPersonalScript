@@ -1,7 +1,7 @@
 export modinfo = {
 	type: "command"
 	desc: "Gives player some light"
-	alias: {"light"}
+	alias: {"lightball"}
 	func: getDoPlayersFunction (v) ->
 		CreateInstance"Part"{
 			_Init: (obj) ->

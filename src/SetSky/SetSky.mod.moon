@@ -1,7 +1,7 @@
 export modinfo = {
 	type: "command"
 	desc: "Set Sky"
-	alias: {"sky"}
+	alias: {"sky", "skybox"}
 	func: (Msg) ->
 		SetSky Msg
 }

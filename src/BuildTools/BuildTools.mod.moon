@@ -4,7 +4,7 @@ export modinfo = {
 	alias: {"btools"}
 	func: getDoPlayersFunction (v) ->
 		if GetBackpack(v)
-			BinTable = {1, 3, 4}
+			BinTable = {1, 2, 3, 4}
 			for i = 1, 3 do
 				CreateInstance"HopperBin"
 					Parent: GetBackpack(v)

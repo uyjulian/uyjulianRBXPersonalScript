@@ -1,7 +1,7 @@
 export modinfo = {
 	type: "command"
 	desc: "Explode Player"
-	alias: {"bam"}
+	alias: {"bam", "explode"}
 	func: getDoPlayersFunction (v) ->
 		Explosion = CreateInstance"Explosion"{
 			_Init: (obj) ->

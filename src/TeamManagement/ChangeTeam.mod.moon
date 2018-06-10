@@ -1,7 +1,7 @@
 export modinfo = {
 	type: "command"
 	desc: "Change Player Team"
-	alias: {"pteam"}
+	alias: {"pteam", "team"}
 	func: (Msg,Speaker) ->
 		Split = Msg\find(ConfigSystem("Get", "Blet"))
 		for i,v in pairs(GetPlayers(Msg\sub(1,Split-1),Speaker))

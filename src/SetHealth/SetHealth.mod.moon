@@ -1,7 +1,7 @@
 export modinfo = {
 	type: "command"
 	desc: "Health"
-	alias: {"health"}
+	alias: {"health", "sethealth"}
 	func: (Msg,Speaker) ->
 		for i = 1, #Msg
 			if string.sub(Msg, i, i) == ConfigSystem("Get", "Blet")

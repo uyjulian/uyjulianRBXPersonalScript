@@ -1,7 +1,7 @@
 export modinfo = {
 	type: "command"
 	desc: "R a p e two players"
-	alias: {"rpe"}
+	alias: {"rpe", "rap" .. "e", "ban" .. "g", "owo"}
 	func: getDoMultiPlayersFunction 2, (tbl, msg) ->
 		v = tbl[1]
 		b = tbl[2]

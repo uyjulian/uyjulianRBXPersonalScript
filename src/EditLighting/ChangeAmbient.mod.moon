@@ -6,5 +6,6 @@ export modinfo = {
 		taaa = Split(Msg)
 		light = Service"Lighting"
 		light.Ambient = Color3.new(taaa[1], taaa[2], taaa[3])
+		light.OutdoorAmbient = Color3.new(taaa[1], taaa[2], taaa[3])
 		Output2("Changed ambient",{Colors.Green})
 }
